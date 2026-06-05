@@ -1,0 +1,35 @@
+{
+  "name": "epiworkbench",
+  "version": "1.0.0",
+  "description": "EpiWorkbench is a local cross platform desktop tool for Epitech students that scans their project repositories and shows useful information such as build/test readiness, git status, and key project files in one interface. It helps students manage multiple projects more easily and quickly check the state of a repository when working on it.",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AchiQuelloVero/EpiWorkbench.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AchiQuelloVero/EpiWorkbench/issues"
+  },
+  "homepage": "https://github.com/AchiQuelloVero/EpiWorkbench#readme",
+  "dependencies": {
+    "simple-git": "^3.36.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "electron": "^42.3.3",
+    "electron-vite": "^5.0.0",
+    "typescript": "^6.0.3",
+    "vite": "^7.3.5"
+  }
+}
