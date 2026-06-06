@@ -1,4 +1,16 @@
-export type ProjectKind = 'c' | 'cpp' | 'node' | 'python' | 'unknown'
+export type ProjectKind =
+  | 'c'
+  | 'cpp'
+  | 'node'
+  | 'python'
+  | 'rust'
+  | 'haskell'
+  | 'javascript'
+  | 'shell'
+  | 'groovy'
+  | 'jinja'
+  | 'ansible'
+  | 'unknown'
 
 export type GitState = 'clean' | 'dirty' | 'no-upstream' | 'not-a-repo' | 'error'
 

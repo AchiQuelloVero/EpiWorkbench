@@ -13,6 +13,13 @@ const KIND_LABEL: Record<ProjectKind, string> = {
   cpp: 'C++',
   node: 'Node',
   python: 'Python',
+  rust: 'Rust',
+  haskell: 'Haskell',
+  javascript: 'JavaScript',
+  shell: 'Shell',
+  groovy: 'Groovy',
+  jinja: 'Jinja',
+  ansible: 'Ansible',
   unknown: ''
 }
 
