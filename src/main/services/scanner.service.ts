@@ -1,17 +1,8 @@
 import { promises as fs } from 'node:fs'
 import { join, basename } from 'node:path'
-import type { RepoInfo, ProjectFiles } from '@shared/types'
+import type { RepoInfo } from '@shared/types'
 import { getGitStatus } from './git.service'
-
-const PLACEHOLDER_FILES: ProjectFiles = {
-  hasReadme: false,
-  readmePath: null,
-  hasMakefile: false,
-  hasTests: false,
-  testPaths: [],
-  sourceFolders: [],
-  configFiles: []
-}
+import { detectProjectFiles } from './projectFiles.service'
 
 function makeId(path: string): string {
   return Buffer.from(path).toString('base64url')
@@ -36,13 +27,14 @@ export async function scanFolder(rootPath: string): Promise<RepoInfo[]> {
     const fullPath = join(rootPath, dir.name)
     if (await isRepo(fullPath)) {
       const git = await getGitStatus(fullPath)
+      const { files, kind } = await detectProjectFiles(fullPath)
       results.push({
         id: makeId(fullPath),
         name: basename(fullPath),
         path: fullPath,
-        kind: 'unknown',
+        kind,
         git,
-        files: PLACEHOLDER_FILES,
+        files,
         scannedAt: Date.now()
       })
     }

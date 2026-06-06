@@ -1,4 +1,4 @@
-export type ProjectKind = 'c' | 'cpp' | 'node' | 'python' | 'makefile' | 'unknown'
+export type ProjectKind = 'c' | 'cpp' | 'node' | 'python' | 'unknown'
 
 export type GitState = 'clean' | 'dirty' | 'no-upstream' | 'not-a-repo' | 'error'
 
