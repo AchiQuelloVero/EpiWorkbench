@@ -1,9 +1,26 @@
-import type { RepoInfo } from '@shared/types'
+import type { RepoInfo, GitState } from '@shared/types'
+
+const STATE_LABEL: Record<GitState, string> = {
+  clean: 'clean',
+  dirty: 'dirty',
+  'no-upstream': 'no upstream',
+  'not-a-repo': 'not a repo',
+  error: 'error'
+}
+
+function gitBadge(state: GitState, branch: string | null): string {
+  const label = STATE_LABEL[state]
+  const branchText = branch ? `<span class="repo-card__branch">${branch}</span>` : ''
+  return `${branchText}<span class="repo-card__badge repo-card__badge--${state}">${label}</span>`
+}
 
 function repoCard(repo: RepoInfo): string {
   return `
     <li class="repo-card" data-id="${repo.id}">
-      <span class="repo-card__name">${repo.name}</span>
+      <div class="repo-card__top">
+        <span class="repo-card__name">${repo.name}</span>
+        <div class="repo-card__meta">${gitBadge(repo.git.state, repo.git.currentBranch)}</div>
+      </div>
       <span class="repo-card__path">${repo.path}</span>
     </li>
   `

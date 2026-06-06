@@ -104,9 +104,29 @@ body {
   background: #2e3038;
 }
 
+.repo-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.repo-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
 .repo-card__name {
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+.repo-card__branch {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
 }
 
 .repo-card__path {
@@ -115,3 +135,18 @@ body {
   color: var(--muted);
   word-break: break-all;
 }
+
+.repo-card__badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.repo-card__badge--clean      { background: #1a3a2a; color: #4caf7d; }
+.repo-card__badge--dirty      { background: #3a2e10; color: #e0a030; }
+.repo-card__badge--no-upstream { background: #2a2a3a; color: #8888cc; }
+.repo-card__badge--not-a-repo { background: #2a2a2a; color: var(--muted); }
+.repo-card__badge--error      { background: #3a1a1a; color: #e05c5c; }
