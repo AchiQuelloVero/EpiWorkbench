@@ -71,6 +71,52 @@ body {
   font-style: italic;
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.toolbar:empty {
+  display: none;
+}
+
+.toolbar__search {
+  flex: 1;
+  min-width: 180px;
+  background: var(--surface);
+  border: 1px solid #34363d;
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.toolbar__select {
+  background: var(--surface);
+  border: 1px solid #34363d;
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.45rem 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.toolbar__dir {
+  background: var(--surface);
+  border: 1px solid #34363d;
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.toolbar__dir:hover {
+  background: #2e3038;
+}
+
 .state-msg {
   color: var(--muted);
   font-size: 0.9rem;

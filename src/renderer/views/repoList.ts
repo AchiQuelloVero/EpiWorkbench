@@ -1,6 +1,6 @@
 import type { RepoInfo, GitState, ProjectFiles, ProjectKind } from '@shared/types'
 
-const STATE_LABEL: Record<GitState, string> = {
+export const STATE_LABEL: Record<GitState, string> = {
   clean: 'clean',
   dirty: 'dirty',
   'no-upstream': 'no upstream',
@@ -8,7 +8,7 @@ const STATE_LABEL: Record<GitState, string> = {
   error: 'error'
 }
 
-const KIND_LABEL: Record<ProjectKind, string> = {
+export const KIND_LABEL: Record<ProjectKind, string> = {
   c: 'C',
   cpp: 'C++',
   node: 'Node',
@@ -65,7 +65,8 @@ export function renderRepoList(
   container: HTMLElement,
   repos: RepoInfo[],
   loading: boolean,
-  error: string | null
+  error: string | null,
+  totalCount = repos.length
 ): void {
   if (loading) {
     container.innerHTML = '<p class="state-msg">Scanning…</p>'
@@ -78,7 +79,11 @@ export function renderRepoList(
   }
 
   if (repos.length === 0) {
-    container.innerHTML = '<p class="state-msg">No repositories found in this folder.</p>'
+    const msg =
+      totalCount > 0
+        ? 'No repositories match your search or filters.'
+        : 'No repositories found in this folder.'
+    container.innerHTML = `<p class="state-msg">${msg}</p>`
     return
   }
 
