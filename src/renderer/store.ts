@@ -9,6 +9,7 @@ interface State {
   filters: RepoFilters
   sortKey: SortKey
   sortDir: 'asc' | 'desc'
+  selectedId: string | null
 }
 
 const state: State = {
@@ -18,11 +19,20 @@ const state: State = {
   error: null,
   filters: { query: '', kinds: [], gitStates: [] },
   sortKey: 'name',
-  sortDir: 'asc'
+  sortDir: 'asc',
+  selectedId: null
 }
 
 export function getState(): Readonly<State> {
   return state
+}
+
+export function setSelectedId(id: string | null): void {
+  state.selectedId = id
+}
+
+export function getSelectedRepo(): RepoInfo | null {
+  return state.repos.find((r) => r.id === state.selectedId) ?? null
 }
 
 export function setRootPath(path: string | null): void {
@@ -36,11 +46,13 @@ export function setLoading(loading: boolean): void {
 export function setRepos(repos: RepoInfo[]): void {
   state.repos = repos
   state.error = null
+  state.selectedId = null
 }
 
 export function setError(error: string): void {
   state.error = error
   state.repos = []
+  state.selectedId = null
 }
 
 export function setQuery(query: string): void {
