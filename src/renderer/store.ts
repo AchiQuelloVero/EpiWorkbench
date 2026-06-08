@@ -10,6 +10,7 @@ interface State {
   sortKey: SortKey
   sortDir: 'asc' | 'desc'
   selectedId: string | null
+  viewMode: 'list' | 'card'
 }
 
 const state: State = {
@@ -20,7 +21,8 @@ const state: State = {
   filters: { query: '', kinds: [], gitStates: [] },
   sortKey: 'name',
   sortDir: 'asc',
-  selectedId: null
+  selectedId: null,
+  viewMode: 'list'
 }
 
 export function getState(): Readonly<State> {
@@ -73,6 +75,10 @@ export function setSortKey(key: SortKey): void {
 
 export function toggleSortDir(): void {
   state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc'
+}
+
+export function setViewMode(mode: 'list' | 'card'): void {
+  state.viewMode = mode
 }
 
 export function derive(): RepoInfo[] {

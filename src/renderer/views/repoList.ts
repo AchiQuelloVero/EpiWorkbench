@@ -61,12 +61,19 @@ function repoCard(repo: RepoInfo): string {
   `
 }
 
+function countLabel(visible: number, total: number): string {
+  const noun = total === 1 ? 'repository' : 'repositories'
+  const text = visible === total ? `${total} ${noun}` : `${visible} of ${total} ${noun}`
+  return `<p class="repo-count">${text}</p>`
+}
+
 export function renderRepoList(
   container: HTMLElement,
   repos: RepoInfo[],
   loading: boolean,
   error: string | null,
-  totalCount = repos.length
+  totalCount = repos.length,
+  viewMode: 'list' | 'card' = 'list'
 ): void {
   if (loading) {
     container.innerHTML = '<p class="state-msg">Scanning…</p>'
@@ -87,5 +94,7 @@ export function renderRepoList(
     return
   }
 
-  container.innerHTML = `<ul class="repo-list">${repos.map(repoCard).join('')}</ul>`
+  container.innerHTML =
+    countLabel(repos.length, totalCount) +
+    `<ul class="repo-list repo-list--${viewMode}">${repos.map(repoCard).join('')}</ul>`
 }

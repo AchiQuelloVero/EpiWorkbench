@@ -22,8 +22,8 @@ const detailsContainer = document.querySelector<HTMLDivElement>('#repo-details')
 const refreshToolbar = toolbarContainer ? mountToolbar(toolbarContainer, renderList) : null
 
 function renderList(): void {
-  const { repos, loading, error } = getState()
-  if (listContainer) renderRepoList(listContainer, derive(), loading, error, repos.length)
+  const { repos, loading, error, viewMode } = getState()
+  if (listContainer) renderRepoList(listContainer, derive(), loading, error, repos.length, viewMode)
 }
 
 function renderDetails(): void {

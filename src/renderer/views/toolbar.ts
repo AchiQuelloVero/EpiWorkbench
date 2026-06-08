@@ -1,5 +1,13 @@
 import type { RepoInfo, ProjectKind, GitState, SortKey } from '@shared/types'
-import { getState, setQuery, setKindFilter, setGitStateFilter, setSortKey, toggleSortDir } from '../store'
+import {
+  getState,
+  setQuery,
+  setKindFilter,
+  setGitStateFilter,
+  setSortKey,
+  toggleSortDir,
+  setViewMode
+} from '../store'
 import { KIND_LABEL, STATE_LABEL } from './repoList'
 
 function unique<T>(values: T[]): T[] {
@@ -23,6 +31,10 @@ export function mountToolbar(container: HTMLElement, onChange: () => void): (rep
         <option value="scannedAt">Scanned</option>
       </select>
       <button id="tb-dir" class="toolbar__dir" title="Toggle sort direction">↑</button>
+      <div class="toolbar__view">
+        <button id="tb-view-list" class="toolbar__viewbtn" data-view="list" title="List view">List</button>
+        <button id="tb-view-card" class="toolbar__viewbtn" data-view="card" title="Card view">Cards</button>
+      </div>
     </div>
   `
 
@@ -31,6 +43,14 @@ export function mountToolbar(container: HTMLElement, onChange: () => void): (rep
   const stateSel = container.querySelector<HTMLSelectElement>('#tb-state')!
   const sortSel = container.querySelector<HTMLSelectElement>('#tb-sort')!
   const dirBtn = container.querySelector<HTMLButtonElement>('#tb-dir')!
+  const viewBtns = [...container.querySelectorAll<HTMLButtonElement>('.toolbar__viewbtn')]
+
+  function syncViewButtons(): void {
+    const mode = getState().viewMode
+    for (const btn of viewBtns) {
+      btn.classList.toggle('is-active', btn.dataset.view === mode)
+    }
+  }
 
   search.addEventListener('input', () => {
     setQuery(search.value)
@@ -53,6 +73,14 @@ export function mountToolbar(container: HTMLElement, onChange: () => void): (rep
     dirBtn.textContent = getState().sortDir === 'asc' ? '↑' : '↓'
     onChange()
   })
+  for (const btn of viewBtns) {
+    btn.addEventListener('click', () => {
+      setViewMode(btn.dataset.view as 'list' | 'card')
+      syncViewButtons()
+      onChange()
+    })
+  }
+  syncViewButtons()
 
   function refresh(repos: RepoInfo[]): void {
     const { filters } = getState()

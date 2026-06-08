@@ -117,6 +117,45 @@ body {
   background: #2e3038;
 }
 
+.toolbar__view {
+  display: flex;
+  margin-left: auto;
+}
+
+.toolbar__viewbtn {
+  background: var(--surface);
+  border: 1px solid #34363d;
+  color: var(--muted);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.toolbar__viewbtn:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.toolbar__viewbtn:last-child {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
+}
+
+.toolbar__viewbtn:hover {
+  background: #2e3038;
+}
+
+.toolbar__viewbtn.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.repo-count {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin: 1rem 0 0;
+}
+
 .state-msg {
   color: var(--muted);
   font-size: 0.9rem;
@@ -129,11 +168,24 @@ body {
 
 .repo-list {
   list-style: none;
-  margin: 1rem 0 0;
+  margin: 0.5rem 0 0;
   padding: 0;
+  gap: 0.5rem;
+}
+
+.repo-list--list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+}
+
+.repo-list--card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-items: start;
+}
+
+.repo-list--card .repo-card__path {
+  font-size: 0.72rem;
 }
 
 .repo-card {
