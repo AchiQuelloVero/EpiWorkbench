@@ -69,7 +69,7 @@ function hasAny(exts: Set<string>, candidates: Set<string>): boolean {
 }
 
 // Ansible repos are pure YAML, so they can't be detected by extension, instead it's better to match the typical structure: an inventory/config marker, or a playbook alongside a roles/ or *_vars/ directory.
-function isAnsible(configFiles: string[], rootDirs: Set<string>): boolean {
+export function isAnsible(configFiles: string[], rootDirs: Set<string>): boolean {
   const cfg = configFiles.map((f) => f.toLowerCase())
   const hasAnsibleCfg = cfg.includes('ansible.cfg')
   const hasPlaybook = cfg.some((f) => /^(playbook|site)\.ya?ml$/.test(f))
@@ -79,7 +79,7 @@ function isAnsible(configFiles: string[], rootDirs: Set<string>): boolean {
   return hasAnsibleCfg || (hasRoles && (hasPlaybook || hasVars)) || (hasPlaybook && hasVars)
 }
 
-function deriveKind(configFiles: string[], exts: Set<string>): ProjectKind {
+export function deriveKind(configFiles: string[], exts: Set<string>): ProjectKind {
   const lower = configFiles.map((f) => f.toLowerCase())
 
   if (lower.includes('package.json')) return 'node'
@@ -164,7 +164,9 @@ async function collectFromDir(
   return { sourceDirs, otherDirs }
 }
 
-export async function detectProjectFiles(repoPath: string): Promise<{ files: ProjectFiles; kind: ProjectKind }> {
+export async function detectProjectFiles(
+  repoPath: string
+): Promise<{ files: ProjectFiles; kind: ProjectKind }> {
   const files: ProjectFiles = {
     hasReadme: false,
     readmePath: null,

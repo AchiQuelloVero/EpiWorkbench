@@ -24,11 +24,20 @@ function list(values: string[]): string {
 function gitSection(repo: RepoInfo): string {
   const g = repo.git
   if (!g.isRepo) {
-    return row('State', `<span class="repo-card__badge repo-card__badge--${g.state}">${STATE_LABEL[g.state]}</span>`)
+    return row(
+      'State',
+      `<span class="repo-card__badge repo-card__badge--${g.state}">${STATE_LABEL[g.state]}</span>`
+    )
   }
   return [
-    row('Branch', g.currentBranch ? `<code>${g.currentBranch}</code>` : '<span class="details__muted">—</span>'),
-    row('State', `<span class="repo-card__badge repo-card__badge--${g.state}">${STATE_LABEL[g.state]}</span>`),
+    row(
+      'Branch',
+      g.currentBranch ? `<code>${g.currentBranch}</code>` : '<span class="details__muted">—</span>'
+    ),
+    row(
+      'State',
+      `<span class="repo-card__badge repo-card__badge--${g.state}">${STATE_LABEL[g.state]}</span>`
+    ),
     row('Ahead / Behind', `↑ ${g.ahead} &nbsp; ↓ ${g.behind}`),
     row('Staged', String(g.staged)),
     row('Unstaged', String(g.unstaged)),
@@ -39,7 +48,12 @@ function gitSection(repo: RepoInfo): string {
 function filesSection(repo: RepoInfo): string {
   const f = repo.files
   return [
-    row('README', f.hasReadme && f.readmePath ? `<code>${f.readmePath}</code>` : '<span class="details__muted">none</span>'),
+    row(
+      'README',
+      f.hasReadme && f.readmePath
+        ? `<code>${f.readmePath}</code>`
+        : '<span class="details__muted">none</span>'
+    ),
     row('Makefile', f.hasMakefile ? 'yes' : '<span class="details__muted">no</span>'),
     row('Tests', list(f.testPaths)),
     row('Source folders', list(f.sourceFolders)),

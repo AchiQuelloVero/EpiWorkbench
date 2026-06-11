@@ -6,9 +6,7 @@ export async function pickFolder(parent: BrowserWindow | null): Promise<string |
     properties: ['openDirectory']
   }
 
-  const result = parent
-    ? await dialog.showOpenDialog(parent, options)
-    : await dialog.showOpenDialog(options)
+  const result = parent ? await dialog.showOpenDialog(parent, options) : await dialog.showOpenDialog(options)
 
   if (result.canceled || result.filePaths.length === 0) {
     return null

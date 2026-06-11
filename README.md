@@ -24,6 +24,7 @@ npm run dev
 ```
 
 > **VS Code terminal only:** the integrated terminal sets an environment variable that breaks Electron. Use this instead:
+>
 > ```bash
 > env -u ELECTRON_RUN_AS_NODE npm run dev
 > ```
@@ -36,8 +37,11 @@ npm run build
 
 Compiled output goes into `out/`.
 
-## Typecheck
+## Quality checks
 
 ```bash
-npm run typecheck
+npm run typecheck   # TypeScript, no emit
+npm test            # Vitest unit tests (filters + language detection)
+npm run lint        # ESLint
+npm run format      # Prettier (write); use format:check to verify only
 ```

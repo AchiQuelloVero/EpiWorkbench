@@ -7,7 +7,16 @@ export async function getGitStatus(repoPath: string): Promise<GitStatus> {
   try {
     const isRepo = await git.checkIsRepo()
     if (!isRepo) {
-      return { isRepo: false, state: 'not-a-repo', currentBranch: null, ahead: 0, behind: 0, staged: 0, unstaged: 0, untracked: 0 }
+      return {
+        isRepo: false,
+        state: 'not-a-repo',
+        currentBranch: null,
+        ahead: 0,
+        behind: 0,
+        staged: 0,
+        unstaged: 0,
+        untracked: 0
+      }
     }
 
     const status = await git.status()
@@ -38,6 +47,15 @@ export async function getGitStatus(repoPath: string): Promise<GitStatus> {
       untracked: status.not_added.length
     }
   } catch {
-    return { isRepo: true, state: 'error', currentBranch: null, ahead: 0, behind: 0, staged: 0, unstaged: 0, untracked: 0 }
+    return {
+      isRepo: true,
+      state: 'error',
+      currentBranch: null,
+      ahead: 0,
+      behind: 0,
+      staged: 0,
+      unstaged: 0,
+      untracked: 0
+    }
   }
 }
