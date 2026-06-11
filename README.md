@@ -1,6 +1,31 @@
 # EpiWorkbench
 
-A local cross-platform desktop tool for Epitech students. Scans a folder of repositories and surfaces git status, key project files, and build/test readiness in one interface.
+A local cross-platform desktop tool for Epitech students. Point it at a folder of projects and it scans every git repository inside, surfacing git status, key project files, and the detected language in one interface, so you can see the state of all your work at a glance.
+
+## Screenshots
+
+![Card view of the scanned repositories](docs/card-view.png)
+
+![Repository details panel](docs/details-panel.png)
+
+## Features
+
+- **Folder scan:** pick a folder and EpiWorkbench finds every git repository inside, including multi-folder "pool"-style repos (it looks one level deep).
+- **Git status per repo:** current branch, clean / dirty / no-upstream state, ahead-behind counts, and staged / unstaged / untracked file counts.
+- **Project file detection:** flags README, Makefile, tests, source folders, and config files.
+- **Language detection:** C, C++, Node, JavaScript, Python, Rust, Haskell, Groovy, Jinja, and Shell, plus Ansible detected by repository structure.
+- **Search, filter, and sort:** search by name or path; filter by language and git state; sort by name, language, git state, or scan time.
+- **Details dashboard:** click any repo for a full breakdown of its git status and detected files.
+- **List and card views:** toggle between a compact list and a card grid, with a live result count.
+
+## Tech stack
+
+- [Electron](https://www.electronjs.org/) cross-platform desktop shell
+- [TypeScript](https://www.typescriptlang.org/)
+- [electron-vite](https://electron-vite.org/) build & dev tooling
+- [simple-git](https://github.com/steveukx/git-js) git status
+- Plain HTML + CSS for the UI (no framework)
+- [Vitest](https://vitest.dev/), [ESLint](https://eslint.org/), [Prettier](https://prettier.io/) tests & code quality
 
 ## Requirements
 
