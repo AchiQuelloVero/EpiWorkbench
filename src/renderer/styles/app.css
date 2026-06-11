@@ -154,6 +154,46 @@ body {
   color: #fff;
 }
 
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.summary__stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  background: var(--surface);
+  border: 1px solid #34363d;
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.summary__value {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.summary__label {
+  color: var(--muted);
+}
+
+.summary__stat--good .summary__value {
+  color: #4caf7d;
+}
+.summary__stat--warn .summary__value {
+  color: #e0a030;
+}
+.summary__stat--info .summary__value {
+  color: #8888cc;
+}
+.summary__stat--muted .summary__value {
+  color: var(--muted);
+}
+
 .repo-count {
   color: var(--muted);
   font-size: 0.8rem;

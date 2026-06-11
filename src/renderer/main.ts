@@ -12,10 +12,13 @@ import {
 import { renderRepoList } from './views/repoList'
 import { mountToolbar } from './views/toolbar'
 import { renderRepoDetails } from './views/repoDetails'
+import { renderSummary } from './views/summaryBar'
+import { summarize } from '@shared/summary'
 
 const pickButton = document.querySelector<HTMLButtonElement>('#pick-folder')
 const pathLabel = document.querySelector<HTMLParagraphElement>('#selected-path')
 const toolbarContainer = document.querySelector<HTMLDivElement>('#toolbar')
+const summaryContainer = document.querySelector<HTMLDivElement>('#repo-summary')
 const listContainer = document.querySelector<HTMLDivElement>('#repo-list-container')
 const detailsContainer = document.querySelector<HTMLDivElement>('#repo-details')
 
@@ -24,6 +27,13 @@ const refreshToolbar = toolbarContainer ? mountToolbar(toolbarContainer, renderL
 function renderList(): void {
   const { repos, loading, error, viewMode } = getState()
   if (listContainer) renderRepoList(listContainer, derive(), loading, error, repos.length, viewMode)
+}
+
+function renderSummaryBar(): void {
+  const { repos, loading, error } = getState()
+  if (!summaryContainer) return
+  const summary = loading || error ? null : summarize(repos)
+  renderSummary(summaryContainer, summary)
 }
 
 function renderDetails(): void {
@@ -69,6 +79,7 @@ pickButton?.addEventListener('click', async () => {
   setRootPath(path)
   setLoading(true)
   renderList()
+  renderSummaryBar()
 
   const result = await api.scanFolder(path)
 
@@ -80,5 +91,6 @@ pickButton?.addEventListener('click', async () => {
     setError(result.error)
   }
   renderList()
+  renderSummaryBar()
   renderDetails()
 })

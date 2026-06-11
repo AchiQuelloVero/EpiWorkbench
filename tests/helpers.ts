@@ -8,6 +8,7 @@ interface Overrides {
   hasReadme?: boolean
   hasTests?: boolean
   scannedAt?: number
+  behind?: number
 }
 
 export function makeRepo(o: Overrides = {}): RepoInfo {
@@ -21,7 +22,7 @@ export function makeRepo(o: Overrides = {}): RepoInfo {
       state: o.gitState ?? 'clean',
       currentBranch: 'main',
       ahead: 0,
-      behind: 0,
+      behind: o.behind ?? 0,
       staged: 0,
       unstaged: 0,
       untracked: 0
