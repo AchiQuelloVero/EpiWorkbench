@@ -14,7 +14,12 @@
     <main class="app">
       <header class="app__header">
         <h1>EpiWorkbench</h1>
-        <button id="pick-folder" class="btn">Select folder…</button>
+        <div class="app__header-actions">
+          <button id="open-prefs" class="btn btn--icon" title="Preferences" aria-label="Preferences">
+            ⚙
+          </button>
+          <button id="pick-folder" class="btn">Select folder…</button>
+        </div>
       </header>
       <section class="app__body">
         <p class="selected-path" id="selected-path" data-empty="true">No folder selected</p>
@@ -24,6 +29,7 @@
       </section>
     </main>
     <div id="repo-details"></div>
+    <div id="preferences"></div>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>

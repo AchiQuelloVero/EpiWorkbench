@@ -56,3 +56,9 @@ export interface RepoFilters {
   hasReadme?: boolean
   hasTests?: boolean
 }
+
+export interface AppSettings {
+  lastFolderPath: string | null
+  viewMode: 'list' | 'card'
+  reopenLastFolder: boolean
+}

@@ -1,8 +1,9 @@
 import { ipcMain, BrowserWindow } from 'electron'
 import { IPC, type Result, type ScanRequest } from '@shared/ipc'
-import type { RepoInfo } from '@shared/types'
+import type { RepoInfo, AppSettings } from '@shared/types'
 import { pickFolder } from '../services/dialog.service'
 import { scanFolder } from '../services/scanner.service'
+import { getSettings, saveSettings } from '../services/settings.service'
 
 export function registerIpcHandlers(): void {
   ipcMain.handle(IPC.pickFolder, (event) => {
@@ -18,4 +19,8 @@ export function registerIpcHandlers(): void {
       return { ok: false, error: err instanceof Error ? err.message : String(err) }
     }
   })
+
+  ipcMain.handle(IPC.getSettings, () => getSettings())
+
+  ipcMain.handle(IPC.saveSettings, (_event, patch: Partial<AppSettings>) => saveSettings(patch))
 }

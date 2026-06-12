@@ -7,22 +7,30 @@ import {
   setError,
   derive,
   setSelectedId,
-  getSelectedRepo
+  getSelectedRepo,
+  setViewMode
 } from './store'
 import { renderRepoList } from './views/repoList'
 import { mountToolbar } from './views/toolbar'
 import { renderRepoDetails } from './views/repoDetails'
 import { renderSummary } from './views/summaryBar'
+import { renderPreferences } from './views/preferences'
 import { summarize } from '@shared/summary'
+import type { AppSettings } from '@shared/types'
 
 const pickButton = document.querySelector<HTMLButtonElement>('#pick-folder')
+const prefsButton = document.querySelector<HTMLButtonElement>('#open-prefs')
 const pathLabel = document.querySelector<HTMLParagraphElement>('#selected-path')
 const toolbarContainer = document.querySelector<HTMLDivElement>('#toolbar')
 const summaryContainer = document.querySelector<HTMLDivElement>('#repo-summary')
 const listContainer = document.querySelector<HTMLDivElement>('#repo-list-container')
 const detailsContainer = document.querySelector<HTMLDivElement>('#repo-details')
+const prefsContainer = document.querySelector<HTMLDivElement>('#preferences')
 
-const refreshToolbar = toolbarContainer ? mountToolbar(toolbarContainer, renderList) : null
+let settings: AppSettings | null = null
+let prefsOpen = false
+
+const toolbar = toolbarContainer ? mountToolbar(toolbarContainer, renderList, persistViewMode) : null
 
 function renderList(): void {
   const { repos, loading, error, viewMode } = getState()
@@ -50,6 +58,24 @@ function closeDetails(): void {
   renderDetails()
 }
 
+function renderPrefs(): void {
+  if (prefsContainer) renderPreferences(prefsContainer, prefsOpen ? settings : null, prefsHandlers)
+}
+
+const prefsHandlers = {
+  onToggleReopen: async (value: boolean) => {
+    settings = await api.saveSettings({ reopenLastFolder: value })
+  },
+  onClose: () => {
+    prefsOpen = false
+    renderPrefs()
+  }
+}
+
+function persistViewMode(): void {
+  void api.saveSettings({ viewMode: getState().viewMode })
+}
+
 function showPath(path: string | null): void {
   if (!pathLabel) return
   if (path) {
@@ -61,22 +87,9 @@ function showPath(path: string | null): void {
   }
 }
 
-listContainer?.addEventListener('click', (e) => {
-  const card = (e.target as HTMLElement).closest<HTMLElement>('.repo-card')
-  if (card?.dataset.id) openDetails(card.dataset.id)
-})
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && getState().selectedId) closeDetails()
-})
-
-pickButton?.addEventListener('click', async () => {
-  const path = await api.pickFolder()
-  showPath(path)
-
-  if (!path) return
-
+async function scan(path: string): Promise<void> {
   setRootPath(path)
+  showPath(path)
   setLoading(true)
   renderList()
   renderSummaryBar()
@@ -86,11 +99,48 @@ pickButton?.addEventListener('click', async () => {
   setLoading(false)
   if (result.ok) {
     setRepos(result.data)
-    refreshToolbar?.(result.data)
+    toolbar?.refresh(result.data)
   } else {
     setError(result.error)
   }
   renderList()
   renderSummaryBar()
   renderDetails()
+}
+
+listContainer?.addEventListener('click', (e) => {
+  const card = (e.target as HTMLElement).closest<HTMLElement>('.repo-card')
+  if (card?.dataset.id) openDetails(card.dataset.id)
 })
+
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return
+  if (getState().selectedId) closeDetails()
+  else if (prefsOpen) prefsHandlers.onClose()
+})
+
+pickButton?.addEventListener('click', async () => {
+  const path = await api.pickFolder()
+  if (!path) return
+  settings = await api.saveSettings({ lastFolderPath: path })
+  await scan(path)
+})
+
+prefsButton?.addEventListener('click', () => {
+  prefsOpen = true
+  renderPrefs()
+})
+
+async function init(): Promise<void> {
+  settings = await api.getSettings()
+  setViewMode(settings.viewMode)
+  toolbar?.syncView()
+
+  if (settings.reopenLastFolder && settings.lastFolderPath) {
+    await scan(settings.lastFolderPath)
+  } else {
+    renderList()
+  }
+}
+
+void init()

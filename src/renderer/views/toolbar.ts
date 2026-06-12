@@ -18,7 +18,16 @@ function option(value: string, label: string, selected: boolean): string {
   return `<option value="${value}"${selected ? ' selected' : ''}>${label}</option>`
 }
 
-export function mountToolbar(container: HTMLElement, onChange: () => void): (repos: RepoInfo[]) => void {
+export interface ToolbarHandle {
+  refresh(repos: RepoInfo[]): void
+  syncView(): void
+}
+
+export function mountToolbar(
+  container: HTMLElement,
+  onChange: () => void,
+  onViewChange: () => void = () => {}
+): ToolbarHandle {
   container.innerHTML = `
     <div class="toolbar">
       <input id="tb-search" class="toolbar__search" type="search" placeholder="Search name or path…" />
@@ -77,6 +86,7 @@ export function mountToolbar(container: HTMLElement, onChange: () => void): (rep
     btn.addEventListener('click', () => {
       setViewMode(btn.dataset.view as 'list' | 'card')
       syncViewButtons()
+      onViewChange()
       onChange()
     })
   }
@@ -97,5 +107,5 @@ export function mountToolbar(container: HTMLElement, onChange: () => void): (rep
   }
 
   refresh([])
-  return refresh
+  return { refresh, syncView: syncViewButtons }
 }

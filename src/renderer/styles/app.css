@@ -61,6 +61,37 @@ body {
   filter: brightness(1.08);
 }
 
+.app__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn--icon {
+  background: var(--surface);
+  border: 1px solid #34363d;
+  color: var(--text);
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.btn--icon:hover {
+  background: #2e3038;
+  filter: none;
+}
+
+.prefs__row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.prefs__row input {
+  cursor: pointer;
+}
+
 .selected-path {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.9rem;
