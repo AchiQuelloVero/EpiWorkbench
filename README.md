@@ -6,6 +6,8 @@ A local cross-platform desktop tool for Epitech students. Point it at a folder o
 
 ![Card view of the scanned repositories](docs/card-view.png)
 
+![List view of the scanned repositories](docs/list-view.png)
+
 ![Repository details panel](docs/details-panel.png)
 
 ## Features
@@ -61,6 +63,17 @@ npm run build
 ```
 
 Compiled output goes into `out/`.
+
+## Package
+
+Produce a distributable application for the current platform:
+
+```bash
+npm run package       # full installer (.dmg / .nsis / .AppImage)
+npm run package:dir   # unpacked app bundle only (faster, for testing)
+```
+
+Output goes into `release/`. Builds target the OS you run the command on (macOS → dmg, Windows → nsis, Linux → AppImage). The macOS build is unsigned (no Apple Developer certificate configured).
 
 ## Quality checks
 
