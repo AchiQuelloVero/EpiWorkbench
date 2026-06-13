@@ -1,0 +1,22 @@
+appId: com.epiworkbench.app
+productName: EpiWorkbench
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - out/**/*
+  - package.json
+
+mac:
+  target: dmg
+  category: public.app-category.developer-tools
+  identity: null
+
+win:
+  target: nsis
+
+linux:
+  target: AppImage
+  category: Development
