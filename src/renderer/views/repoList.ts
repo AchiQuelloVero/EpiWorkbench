@@ -1,4 +1,5 @@
 import type { RepoInfo, GitState, ProjectFiles, ProjectKind } from '@shared/types'
+import { escapeHtml } from '../escape'
 
 export const STATE_LABEL: Record<GitState, string> = {
   clean: 'clean',
@@ -25,7 +26,7 @@ export const KIND_LABEL: Record<ProjectKind, string> = {
 
 function gitBadge(state: GitState, branch: string | null): string {
   const label = STATE_LABEL[state]
-  const branchText = branch ? `<span class="repo-card__branch">${branch}</span>` : ''
+  const branchText = branch ? `<span class="repo-card__branch">${escapeHtml(branch)}</span>` : ''
   return `${branchText}<span class="repo-card__badge repo-card__badge--${state}">${label}</span>`
 }
 
@@ -52,10 +53,10 @@ function repoCard(repo: RepoInfo): string {
   return `
     <li class="repo-card" data-id="${repo.id}">
       <div class="repo-card__top">
-        <span class="repo-card__name">${repo.name}${kindTag(repo.kind)}</span>
+        <span class="repo-card__name">${escapeHtml(repo.name)}${kindTag(repo.kind)}</span>
         <div class="repo-card__meta">${gitBadge(repo.git.state, repo.git.currentBranch)}</div>
       </div>
-      <span class="repo-card__path">${repo.path}</span>
+      <span class="repo-card__path">${escapeHtml(repo.path)}</span>
       <div class="repo-card__chips">${fileIndicators(repo.files)}</div>
     </li>
   `
@@ -81,7 +82,7 @@ export function renderRepoList(
   }
 
   if (error) {
-    container.innerHTML = `<p class="state-msg state-msg--error">${error}</p>`
+    container.innerHTML = `<p class="state-msg state-msg--error">${escapeHtml(error)}</p>`
     return
   }
 

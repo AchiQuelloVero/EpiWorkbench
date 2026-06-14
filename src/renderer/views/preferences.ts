@@ -1,4 +1,5 @@
 import type { AppSettings } from '@shared/types'
+import { escapeHtml } from '../escape'
 
 export interface PreferencesHandlers {
   onToggleReopen: (value: boolean) => void
@@ -16,7 +17,7 @@ export function renderPreferences(
   }
 
   const lastFolder = settings.lastFolderPath
-    ? `<code>${settings.lastFolderPath}</code>`
+    ? `<code>${escapeHtml(settings.lastFolderPath)}</code>`
     : '<span class="details__muted">none</span>'
 
   container.innerHTML = `

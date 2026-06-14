@@ -1,5 +1,6 @@
 import type { RepoInfo } from '@shared/types'
 import { KIND_LABEL, STATE_LABEL } from './repoList'
+import { escapeHtml } from '../escape'
 
 function unique(values: string[]): string[] {
   return [...new Set(values)]
@@ -17,7 +18,7 @@ function row(label: string, value: string): string {
 function list(values: string[]): string {
   if (values.length === 0) return '<span class="details__muted">none</span>'
   return unique(values)
-    .map((v) => `<code class="details__tag">${v}</code>`)
+    .map((v) => `<code class="details__tag">${escapeHtml(v)}</code>`)
     .join(' ')
 }
 
@@ -32,7 +33,9 @@ function gitSection(repo: RepoInfo): string {
   return [
     row(
       'Branch',
-      g.currentBranch ? `<code>${g.currentBranch}</code>` : '<span class="details__muted">—</span>'
+      g.currentBranch
+        ? `<code>${escapeHtml(g.currentBranch)}</code>`
+        : '<span class="details__muted">—</span>'
     ),
     row(
       'State',
@@ -51,7 +54,7 @@ function filesSection(repo: RepoInfo): string {
     row(
       'README',
       f.hasReadme && f.readmePath
-        ? `<code>${f.readmePath}</code>`
+        ? `<code>${escapeHtml(f.readmePath)}</code>`
         : '<span class="details__muted">none</span>'
     ),
     row('Makefile', f.hasMakefile ? 'yes' : '<span class="details__muted">no</span>'),
@@ -74,8 +77,8 @@ export function renderRepoDetails(container: HTMLElement, repo: RepoInfo | null,
     <div class="details-overlay">
       <div class="details-panel" role="dialog" aria-modal="true">
         <button class="details__close" aria-label="Close">×</button>
-        <h2 class="details__title">${repo.name} ${kindTag}</h2>
-        <p class="details__path">${repo.path}</p>
+        <h2 class="details__title">${escapeHtml(repo.name)} ${kindTag}</h2>
+        <p class="details__path">${escapeHtml(repo.path)}</p>
 
         <h3 class="details__heading">Git status</h3>
         ${gitSection(repo)}

@@ -87,22 +87,33 @@ function showPath(path: string | null): void {
   }
 }
 
+let scanning = false
+
 async function scan(path: string): Promise<void> {
+  if (scanning) return
+  scanning = true
+  if (pickButton) pickButton.disabled = true
+
   setRootPath(path)
   showPath(path)
   setLoading(true)
   renderList()
   renderSummaryBar()
 
-  const result = await api.scanFolder(path)
-
-  setLoading(false)
-  if (result.ok) {
-    setRepos(result.data)
-    toolbar?.refresh(result.data)
-  } else {
-    setError(result.error)
+  try {
+    const result = await api.scanFolder(path)
+    setLoading(false)
+    if (result.ok) {
+      setRepos(result.data)
+      toolbar?.refresh(result.data)
+    } else {
+      setError(result.error)
+    }
+  } finally {
+    scanning = false
+    if (pickButton) pickButton.disabled = false
   }
+
   renderList()
   renderSummaryBar()
   renderDetails()
